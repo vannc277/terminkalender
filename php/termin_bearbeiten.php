@@ -21,12 +21,12 @@ if (isset($_POST["termin_speichern"])) {
     $status = $_POST["status"];
     $benutzer_fk = $_SESSION["benutzer_pk"];
     $sql_query = "update termine set
-    beschreibung = '$beschreibung',
-    datum = '$datum',
-    zeit = $zeit,
-    status_fk = '$status',
-    benutzer_fk = '$benutzer_fk'
-where termin_pk = $termin_pk ";
+                        beschreibung = '$beschreibung',
+                        datum = '$datum',
+                        zeit = $zeit,
+                        status_fk = '$status',
+                        benutzer_fk = '$benutzer_fk'
+                    where termin_pk = $termin_pk ";
     mysqli_query($link, $sql_query);
 
     echo "</br>";
@@ -62,8 +62,8 @@ where termin_pk = $termin_pk ";
 } else if (isset($_POST["termin_loeschen"])) {
     include ("php/termin_loeschenbestaetigung.php");
 } else {
+    
     include("termin_daten_laden.php");
     include("termin_formular.php");
 }
-
 

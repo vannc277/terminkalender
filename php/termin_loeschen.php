@@ -1,7 +1,7 @@
 <?php
 if(isset($_POST["termin_loeschen_ja"]))
 {
-    var_dump($termin_pk);
+    #var_dump($termin_pk);
 	mysqli_query($link, "delete from termine where termin_pk = $termin_pk");
 	
 	# Umleitung

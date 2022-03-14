@@ -1,6 +1,6 @@
 <?php
 # Neue Termine in Datenbeank eintragen
-/* if (isset($_POST["termin_eintragen"])) {
+if (isset($_POST["termin_eintragen"])) {
     $beschreibung = $_POST["beschreibung"];
     $datum = $_POST["datum"];
     $zeit = $_POST["zeit"];
@@ -12,7 +12,7 @@
                  values
                  ('$beschreibung', '$datum', '$zeit', '$status', '$benutzer_fk')
                  ");
-} */
+}
 
 $antwort = mysqli_query($link, "SELECT t.termin_pk, t.beschreibung, t.datum, t.zeit, s.bezeichnung as status
                                   FROM termine as t, statusmoeglichkeiten as s 

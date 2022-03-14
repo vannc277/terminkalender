@@ -1,6 +1,8 @@
 <?php
 include("termin_daten_laden.php");
 ?>
+
+<h1>Wollen Sie wirklich löschen?</h1>
 <ul>
     <li>
         Termin: <?= @$beschreibung?>
@@ -15,8 +17,6 @@ include("termin_daten_laden.php");
         Status: <?= @$status?>
     </li>
 </ul>
-
-<h1>Wollen Sie wirklich löschen?</h1>
 <form method="POST">
     <input type="submit" value="JA" name="termin_loeschen_ja" />
     <input type="submit" value="NEIN" name="termin_loeschen_nein" />

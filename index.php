@@ -83,7 +83,7 @@ if (isset($_COOKIE["login_merken"])) {
 		if (isset($_SESSION["eingeloggt"])) {
 			echo '<a href="?seite=verwaltung">Verwaltung</a>';
 			echo '<a href="?seite=logout">Logout</a>';
-			echo "Hallo " . $_SESSION["benutzer"];
+			echo "Hallo " . $_SESSION["benutzer"] ."<br />";
 		} else {
 			echo '<a href="?seite=login">Login</a>';
 		}

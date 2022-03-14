@@ -35,7 +35,7 @@ if(isset($_COOKIE["login_merken"]))
 }
 
 # Neue Termine in Datenbeank eintragen
-if (isset($_POST["termin_eintragen"])) {
+/* if (isset($_POST["termin_eintragen"])) {
     $beschreibung = $_POST["beschreibung"];
     $datum = $_POST["datum"];
 	$zeit = $_POST["zeit"];
@@ -51,7 +51,7 @@ if (isset($_POST["termin_eintragen"])) {
  #$antwort = mysqli_query($link, "select * from termine order by datum");
 $antwort = mysqli_query($link, "SELECT t.beschreibung, t.datum, t.zeit, s.beschreibung as status
                                     FROM termine as t, statusmoeglichkeiten as s 
-                                    WHERE t.status_fk = s.status_pk ORDER BY t.datum ASC, status");
+                                    WHERE t.status_fk = s.status_pk ORDER BY t.datum ASC, status"); */
  /* $unerledigte = array();
  $abgeschlossen = array();
  $abgesagte = array();
