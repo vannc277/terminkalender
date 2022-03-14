@@ -1,31 +1,59 @@
 <?php
+session_start();
+
 # Datenverbindung
 $link = mysqli_connect("localhost", "root", "", "terminkalender");
 mysqli_query($link, "SET names utf8");
 
 if (isset($_GET["seite"]) && $_GET["seite"] == "logout") {
-	session_destroy();
-	unset($_SESSION);
-	setcookie("login_merken", "", time() - 1); # cookie entfernen beim Client
+	unset($_SESSION["eingeloggt"]);		
+	unset($_SESSION["benutzer_pk"]);
+	unset($_SESSION["benutzer"]);
+	unset($_SESSION["login_merken"]);
+	setcookie("login_merken", "", time() -1); # cookie entfernen beim Client
 	unset($_COOKIE["login_merken"]); # cookie aus dem Server RAM löschen
+	$_SESSION["mitteilung"] = "<div style='color:red'>Sie haben sich ausgeloggt</div>";	
 }
 
+if(isset($_POST["benutzer"]) && isset($_POST["kennwort"]))
+{
+	# SQL-Injection unschädlich machen (' wird zu \'  ,  " wird zu \") 
+	$_POST["benutzer"] = mysqli_real_escape_string($link, $_POST["benutzer"]);
+	
+	# Überprüfen mit der Datenbank
+	$sql =  " select * from benutzer "; 
+	$sql .= " where benutzer_name='".$_POST["benutzer"]."' "; 
 
-if (isset($_POST["benutzer"]) && isset($_POST["kennwort"])) {
-	if ($_POST["benutzer"] == "van" && $_POST["kennwort"] == "nguyen") {
-		#echo "klappt";
-		$_SESSION["eingeloggt"] = true;
-		$_SESSION["benutzer"] = "Van Nguyen";
-		$_SESSION["mitteilung"] = "<div style='color:lightgreen'>Erfolgreich eingeloggt</div>";
-		if (isset($_POST["merken"])) {
-			setcookie("login_merken", "Van Nguyen", time() + 60 * 60 * 24 * 365);
+	$antwort = mysqli_query($link, $sql);
+	
+	# Wird genau eine Zeile geliefert?
+	if($antwort->num_rows == 1)
+	{
+		# Datensatz aus der Datenbank rausholen
+		$datensatz = mysqli_fetch_array($antwort);
+		
+		# Fingerabdruck vergleichen
+		if( password_verify($_POST["kennwort"], $datensatz["passwort"]) )
+		{
+			#echo "klappt";
+			$_SESSION["eingeloggt"] = true;
+			$_SESSION["benutzer_pk"] = $datensatz["benutzer_pk"];
+			$_SESSION["benutzer"] = $datensatz["benutzer_name"];
+			$_SESSION["mitteilung"] = "<div style='color:lightgreen'>Erfolgreich eingeloggt</div>";
+			if(isset($_POST["merken"]))
+			{
+				setcookie("login_merken", "Benutzer", time() + 60*60*24*365);
+			}
+			# Kopfzeilen ändern
+			header("Location: ?seite=verwaltung"); # Weiterleiten zur Verwaltung
+			exit; # PHP - Programm Ende
 		}
-		# Kopfzeilen ändern
-		header("Location: ?seite=verwaltung"); # Weiterleiten zur Verwaltung
-		exit; # PHP - Programm Ende
+		else {
+			$_SESSION["mitteilung"] = "<div style='color:red'>Eingabe ist nicht richtig!</div>";
+		}
 	} else {
 		#echo "falsch";
-		$_SESSION["mitteilung"] = "<div style='color:red'>Falsche Eingabe</div>";
+		$_SESSION["mitteilung"] = "<div style='color:red'>Eingabe ist nicht richtig!</div>";
 	}
 }
 
@@ -33,43 +61,9 @@ if (isset($_POST["benutzer"]) && isset($_POST["kennwort"])) {
 if (isset($_COOKIE["login_merken"])) {
 	# automatisch einloggen
 	$_SESSION["eingeloggt"] = true;
-	$_SESSION["benutzer"] = "Van Nguyen";
+	#$_SESSION["benutzer"] = "Benutzer";
 }
-
-# Neue Termine in Datenbeank eintragen
-if (isset($_POST["termin_eintragen"])) {
-	$beschreibung = $_POST["beschreibung"];
-	$datum = $_POST["datum"];
-	$zeit = $_POST["zeit"];
-	$status = $_POST["status"];
-	mysqli_query($link, "insert into termine
-                (beschreibung, datum, zeit, status_fk)
-                values
-                ('$beschreibung', '$datum', '$zeit', '$status')
-                ");
-}
-
-
-#$antwort = mysqli_query($link, "select * from termine order by datum");
-$antwort = mysqli_query($link, "SELECT t.beschreibung, t.datum, t.zeit, s.beschreibung as status
-                                    FROM termine as t, statusmoeglichkeiten as s 
-                                    WHERE t.status_fk = s.status_pk ORDER BY t.datum ASC, status");
-/* $unerledigte = array();
- $abgeschlossen = array();
- $abgesagte = array();
-
- while ($datensatz = mysqli_fetch_array($antwort)) {
-     if ($datensatz["status"] == 1) {
-         $unerledigte[] = $datensatz;
-    }
-    if ($datensatz["status"] == 2) {
-        $abgeschlossen[] = $datensatz;
-     }
-     if ($datensatz["status"] == 3) {
-        $abgesagte[] = $datensatz;
-     }
-}*/
-
+ 
 ?>
 
 <html>
@@ -87,11 +81,15 @@ $antwort = mysqli_query($link, "SELECT t.beschreibung, t.datum, t.zeit, s.beschr
 		<a href="?seite=start">Startseite</a>
 		<?php
 		if (isset($_SESSION["eingeloggt"])) {
-			echo '<a href="?seite=Verwaltung">Verwaltung</a>';
+			echo '<a href="?seite=verwaltung">Verwaltung</a>';
 			echo '<a href="?seite=logout">Logout</a>';
 			echo "Hallo " . $_SESSION["benutzer"];
 		} else {
 			echo '<a href="?seite=login">Login</a>';
+		}
+
+		if (!isset($_GET["seite"])) {
+			$_GET["seite"] = "start";
 		}
 
 		switch ($_GET["seite"]) {

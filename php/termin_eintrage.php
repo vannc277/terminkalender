@@ -1,13 +1,17 @@
 <?php
-if (isset($_POST["termin_eintragen"])) {
+$titel = "Termin eintragen";
+$button = $titel;
+if (isset($_POST["termin_speichern"])) {
     $beschreibung = $_POST["beschreibung"];
     $datum = $_POST["datum"];
 	$zeit = $_POST["zeit"];
     $status = $_POST["status"];
+    $benutzer_fk = $_SESSION["benutzer_pk"];
+
     mysqli_query($link, "insert into termine
-                (beschreibung, datum, zeit, status_fk)
+                (beschreibung, datum, zeit, status_fk, benutzer_fk)
                 values
-                ('$beschreibung', '$datum', '$zeit', '$status')
+                ('$beschreibung', '$datum', '$zeit', '$status', '$benutzer_fk')
                 ");
 
     $termin_pk = $link->insert_id; # primärschlüssel
@@ -40,7 +44,9 @@ if (isset($_POST["termin_eintragen"])) {
     echo "</tr>";
     echo"</table>";
     echo "<br />";
-	echo "<a href='php/termin_formular.php'>Weiteren Termin eintragen</a>";						
+	echo "<a href='?seite=verwaltung&unterseite=termin_eintrage'>Weiteren Termin eintragen</a>";
+    echo "<br />";						
+	echo "<a href='?seite=verwaltung&unterseite=termin_anzeige'>Alle Termine anzeigen</a>";						
 }
 else
 {
