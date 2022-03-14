@@ -16,7 +16,7 @@ if (isset($_POST["termin_speichern"])) {
 
     $termin_pk = $link->insert_id; # primärschlüssel
 
-	echo "Es wurde einen neuen Termin gespeichert unter: ". $termin_pk;
+	echo "<div style='font-size: 20px, color: white'>Es wurde einen neuen Termin gespeichert unter: ". $termin_pk ."</div>";
     echo "<table>";
     echo "<tr>";
     echo "<th>Termin</th>";

@@ -1,7 +1,6 @@
 <?php
 $bedingungen_array = array();
 # Suche
-$bedingungen_array[] = "t.status_fk = s.status_pk ";
 if(isset($_SESSION["suche"]) && $_SESSION["suche"] != "")
 {
 	$bedingungen_array[] = "(
@@ -16,7 +15,6 @@ if(isset($_SESSION["suche"]) && $_SESSION["suche"] != "")
 }
 
 
-
 $bedingungen = "";
 if(count($bedingungen_array) > 0)
 {
@@ -25,7 +23,7 @@ if(count($bedingungen_array) > 0)
 }
 
 $sql_befehl = "
-select * from termine as t, statusmoeglichkeiten as s " .$bedingungen. "order by datum";
+select * from termine as t INNER JOIN statusmoeglichkeiten as s ON t.status_fk = s.status_pk " .$bedingungen. "order by datum";
 
 #var_dump($sql_befehl);
 

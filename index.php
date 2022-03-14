@@ -61,7 +61,7 @@ if(isset($_POST["benutzer"]) && isset($_POST["kennwort"]))
 if (isset($_COOKIE["login_merken"])) {
 	# automatisch einloggen
 	$_SESSION["eingeloggt"] = true;
-	#$_SESSION["benutzer"] = "Benutzer";
+	$_SESSION["benutzer"] = "Benutzer";
 }
  
 ?>
@@ -78,14 +78,28 @@ if (isset($_COOKIE["login_merken"])) {
 
 <body>
 	<header>
+		<div>
+			<img src="kalender.jpg" style="width: 50; height: 50">
+		</div>
+		<div>
 		<a href="?seite=start">Startseite</a>
 		<?php
 		if (isset($_SESSION["eingeloggt"])) {
 			echo '<a href="?seite=verwaltung">Verwaltung</a>';
 			echo '<a href="?seite=logout">Logout</a>';
-			echo "Hallo " . $_SESSION["benutzer"] ."<br />";
+			echo "<span style='color: lightsalmon'>" . "Hallo " . $_SESSION["benutzer"] ."</span><br />";
 		} else {
 			echo '<a href="?seite=login">Login</a>';
+		}
+		?>
+		</div>
+	</header>
+
+	<main>
+	<?php
+		if(isset($_SESSION["mitteilung"])) {
+			echo $_SESSION["mitteilung"]; # Anzeigen
+			unset($_SESSION["mitteilung"]); # Entfernen / Löschen
 		}
 
 		if (!isset($_GET["seite"])) {
@@ -105,7 +119,8 @@ if (isset($_COOKIE["login_merken"])) {
 			case "verwaltung":
 				if (isset($_SESSION["eingeloggt"])) {
 					include("php/verwaltung.php"); # externe Datei einbinden
-				} else {
+				} 
+				else {
 					header("Location: ?seite=login"); # Weiterleitung zum Login
 					exit; # Programm verlassen / beenden
 				}
@@ -113,9 +128,13 @@ if (isset($_COOKIE["login_merken"])) {
 			default:
 				include("php/404.php"); # externe Datei einbinden
 		}
+	?>
+	</main>
 
-		?>
-	</header>
+	<footer>
+		&copy; Copyright <?= date("Y"); ?>
+	</footer>
+	
 </body>
 
 </html>

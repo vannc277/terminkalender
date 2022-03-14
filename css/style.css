@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    background-color: white;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+}
+
+main {
+    background-color: lightseagreen ;
+    color: black;
+}
+
+footer {
+    background-color: lightsalmon;
+    color: black;
+}
+
+header, main, footer {
+    padding: 30px;
+}
+
+.slogan {
+    text-align: center;
+    margin: 100px auto;
+}
+
+.slogan h1 {
+    margin-bottom: 30px;
+    font-size: 60px;
+}
+
+.slogan h2 {
+    font-size: 50px;
+}
+
+header a {
+    color: lightseagreen;
+    padding: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header a:hover
+{
+	color: lightsalmon;
+}
+
+.verwaltung_links{
+    margin-top: 30px;
+}
+
+.verwaltung_links a {
+    color: black;
+    padding: 20px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.verwaltung_links a:hover {
+    color: white;
+}
+
+input,select,textarea, button
+{
+	padding: 10px;
+	background-color: white;
+    color: black;
+	font-weight: bold;
+    font-size: 16px;
+	border-radius: 5px;
+	border: 0px;
+	margin: 10px;
+}
+input:hover,select:hover,textarea:hover, button:hover
+{
+	background-color: #ffcccc;
+}
