@@ -4,19 +4,23 @@ $button = $titel;
 if (isset($_POST["termin_speichern"])) {
     $beschreibung = $_POST["beschreibung"];
     $datum = $_POST["datum"];
-	$zeit = $_POST["zeit"];
+    if ($_POST["zeit"] == "") {
+        $zeit = "NULL";
+    } else {
+        $zeit = "'".$_POST["zeit"]."'";
+    }
     $status = $_POST["status"];
     $benutzer_fk = $_SESSION["benutzer_pk"];
 
     mysqli_query($link, "insert into termine
                 (beschreibung, datum, zeit, status_fk, benutzer_fk)
                 values
-                ('$beschreibung', '$datum', '$zeit', '$status', '$benutzer_fk')
+                ('$beschreibung', '$datum', $zeit, '$status', '$benutzer_fk')
                 ");
 
     $termin_pk = $link->insert_id; # primärschlüssel
 
-	echo "<div style='font-size: 20px, color: white'>Es wurde einen neuen Termin gespeichert unter: ". $termin_pk ."</div>";
+	echo "<div style='color:lightgreen; margin-bottom: 20px'>Es wurde einen neuen Termin gespeichert unter: ". $termin_pk ."</div>";
     echo "<table>";
     echo "<tr>";
     echo "<th>Termin</th>";
@@ -45,7 +49,6 @@ if (isset($_POST["termin_speichern"])) {
     echo"</table>";
     echo "<br />";
 	echo "<a href='?seite=verwaltung&unterseite=termin_eintrage'>Weiteren Termin eintragen</a>";
-    echo "<br />";						
 	echo "<a href='?seite=verwaltung&unterseite=termin_anzeige'>Alle Termine anzeigen</a>";						
 }
 else

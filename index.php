@@ -12,11 +12,10 @@ if (isset($_GET["seite"]) && $_GET["seite"] == "logout") {
 	unset($_SESSION["login_merken"]);
 	setcookie("login_merken", "", time() -1); # cookie entfernen beim Client
 	unset($_COOKIE["login_merken"]); # cookie aus dem Server RAM löschen
-	$_SESSION["mitteilung"] = "<div style='color:red'>Sie haben sich ausgeloggt</div>";	
+	$_SESSION["mitteilung"] = "<div style='color:red; margin-bottom: 20px'>Sie haben sich ausgeloggt</div>";	
 }
 
-if(isset($_POST["benutzer"]) && isset($_POST["kennwort"]))
-{
+if(isset($_POST["benutzer"]) && isset($_POST["kennwort"])) {
 	# SQL-Injection unschädlich machen (' wird zu \'  ,  " wird zu \") 
 	$_POST["benutzer"] = mysqli_real_escape_string($link, $_POST["benutzer"]);
 	
@@ -27,19 +26,17 @@ if(isset($_POST["benutzer"]) && isset($_POST["kennwort"]))
 	$antwort = mysqli_query($link, $sql);
 	
 	# Wird genau eine Zeile geliefert?
-	if($antwort->num_rows == 1)
-	{
+	if($antwort->num_rows == 1) {
 		# Datensatz aus der Datenbank rausholen
 		$datensatz = mysqli_fetch_array($antwort);
 		
 		# Fingerabdruck vergleichen
-		if( password_verify($_POST["kennwort"], $datensatz["passwort"]) )
-		{
+		if(password_verify($_POST["kennwort"], $datensatz["passwort"])) {
 			#echo "klappt";
 			$_SESSION["eingeloggt"] = true;
 			$_SESSION["benutzer_pk"] = $datensatz["benutzer_pk"];
 			$_SESSION["benutzer"] = $datensatz["benutzer_name"];
-			$_SESSION["mitteilung"] = "<div style='color:lightgreen'>Erfolgreich eingeloggt</div>";
+			$_SESSION["mitteilung"] = "<div style='color:lightgreen; margin-bottom: 20px'>Erfolgreich eingeloggt</div>";
 			if(isset($_POST["merken"]))
 			{
 				setcookie("login_merken", "Benutzer", time() + 60*60*24*365);
@@ -47,13 +44,13 @@ if(isset($_POST["benutzer"]) && isset($_POST["kennwort"]))
 			# Kopfzeilen ändern
 			header("Location: ?seite=verwaltung"); # Weiterleiten zur Verwaltung
 			exit; # PHP - Programm Ende
-		}
+		} 
 		else {
-			$_SESSION["mitteilung"] = "<div style='color:red'>Eingabe ist nicht richtig!</div>";
+			$_SESSION["mitteilung"] = "<div style='color:red; margin-bottom: 20px'>Eingabe ist nicht richtig!</div>";
 		}
 	} else {
 		#echo "falsch";
-		$_SESSION["mitteilung"] = "<div style='color:red'>Eingabe ist nicht richtig!</div>";
+		$_SESSION["mitteilung"] = "<div style='color:red; margin-bottom: 20px'>Eingabe ist nicht richtig!</div>";
 	}
 }
 
@@ -74,6 +71,8 @@ if (isset($_COOKIE["login_merken"])) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>terminkalender</title>
 	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
 <body>

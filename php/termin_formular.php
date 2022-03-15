@@ -15,18 +15,7 @@
                 }
                 echo "<option value='".$value."' ".$selected.">".$status["bezeichnung"]."</option>";
              }
-             /* foreach($options as $i => $option) {
-                 $selected = "";
-                 $value = $i+1;
-                 if (isset($status_fk) && $value == $status_fk) {
-                     $selected = "selected";
-                 }
-                 echo "<option value='".$value."' ".$selected.">".$option."</option>";                
-             } */
         ?>
-        <!-- <option value="1">Unerledigt</option> -->
-        <!-- <option value="2">Abgeschlossen</option>-->
-        <!-- <option value="3">Abgesagt</option> -->
     </select>
     <br /><br />
     <button type="submit" name="termin_speichern"><?= @$button;?></button>

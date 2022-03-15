@@ -17,7 +17,7 @@ main {
 }
 
 footer {
-    background-color: lightsalmon;
+    background-color: #ffcccc;
     color: black;
 }
 
@@ -45,25 +45,21 @@ header a {
     text-decoration: none;
     font-weight: bold;
 }
-
-header a:hover
-{
-	color: lightsalmon;
+header a:hover {
+	color: #ffcccc;
 }
-
-.verwaltung_links{
-    margin-top: 30px;
-}
-
-.verwaltung_links a {
+main a {
     color: black;
-    padding: 20px;
+    background-color: white;
+    padding: 10px;
+    margin: 10px;
+    text-decoration: none;
     font-weight: bold;
-    margin: 20px;
+    border-radius: 5px;
 }
-
-.verwaltung_links a:hover {
-    color: white;
+main a:hover{
+	color: lightseagreen;
+    background-color: #ffcccc;
 }
 
 input,select,textarea, button
@@ -80,4 +76,23 @@ input,select,textarea, button
 input:hover,select:hover,textarea:hover, button:hover
 {
 	background-color: #ffcccc;
+}
+
+table, th, td {
+    border: solid 1px black;
+    border-collapse: collapse;
+    padding: 5px;
+    margin: 10px;
+}
+
+.mitteilung_erfolg {
+    color: lightgreen;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.mitteilung_fehler {
+    color: red;
+    font-size: 20px;
+    margin-bottom: 20px;
 }

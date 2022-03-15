@@ -1,6 +1,7 @@
 <?php
 $titel = "Termin bearbeiten";
 $button = "Termin ändern";
+
 if (isset($_GET["termin"])) {
     $termin_pk = $_GET["termin"];
 } else {
@@ -17,6 +18,7 @@ if (isset($_POST["termin_speichern"])) {
     } else {
         $zeit = "'".$_POST["zeit"]."'";
     }
+    #$zeit = $_POST["zeit"];
 
     $status = $_POST["status"];
     $benutzer_fk = $_SESSION["benutzer_pk"];
@@ -27,6 +29,7 @@ if (isset($_POST["termin_speichern"])) {
                         status_fk = '$status',
                         benutzer_fk = '$benutzer_fk'
                     where termin_pk = $termin_pk ";
+                    var_dump($sql_query);
     mysqli_query($link, $sql_query);
 
     echo "</br>";
@@ -62,7 +65,6 @@ if (isset($_POST["termin_speichern"])) {
 } else if (isset($_POST["termin_loeschen"])) {
     include ("php/termin_loeschenbestaetigung.php");
 } else {
-    
     include("termin_daten_laden.php");
     include("termin_formular.php");
 }
